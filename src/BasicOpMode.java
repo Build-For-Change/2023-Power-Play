@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -21,56 +23,51 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
-public class BasicOpMode extends OpMode
+public class stuff extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotorEx FleftDrive = null;
-    private DcMotorEx FrightDrive = null;
-    private DcMotorEx BleftDrive = null;
-    private DcMotorEx BrightDrive = null;
-
-
+    private DcMotorEx fl = null;
+    private DcMotorEx fr = null;
+    private DcMotorEx bl = null;
+    private DcMotorEx br = null;
+    
+    
     /*
      * Code to run ONCE when the driver hits INIT
      */
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
-
+        
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        FleftDrive  = hardwareMap.get(DcMotorEx.class, "FleftDrive");
-        FrightDrive = hardwareMap.get(DcMotorEx.class, "FrightDrive");
-        BleftDrive  = hardwareMap.get(DcMotorEx.class, "BleftDrive");
-        BFrightDrive = hardwareMap.get(DcMotorEx.class, "BrightDrive");
-
-        //FleftDrive.setDirection(DcMotorSimple.Direction.REVERSE); That is for tank drive
-        //FrightDrive.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        // Most robots need the motor on one side to be reversed to drive forward
-        // Reverse the motor that runs backwards when connected directly to the battery
-        //leftDrive.setDirection(DcMotor.Direction.FORWARD); We don't need movements in the Init function
-        //rightDrive.setDirection(DcMotor.Direction.REVERSE); We don't need movements in the Init function
-
-        // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized");
+        fl  = hardwareMap.get(DcMotorEx.class, "fl");
+        fr = hardwareMap.get(DcMotorEx.class, "fr");
+        bl  = hardwareMap.get(DcMotorEx.class, "bl");
+        br = hardwareMap.get(DcMotorEx.class, "br");
+        
+        
+        
+        
+        br.setDirection(DcMotorSimple.Direction.REVERSE);
+        fr.setDirection(DcMotorSimple.Direction.REVERSE);
+        
     }
-
-
-
-
+    
+    
+    
+    
     /*
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     @Override
     public void init_loop() {
     }
-
-
-
-
+    
+    
+    
+    
     /*
      * Code to run ONCE when the driver hits PLAY
      */
@@ -78,33 +75,63 @@ public class BasicOpMode extends OpMode
     public void start() {
         runtime.reset();
     }
-
-
-
-
-
+    
+    
+    
+    
+    
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
     @Override
     public void loop() {
         // Setup a variable for each drive wheel to save power level for telemetry
-        double FleftPower;
+        /* double FleftPower;
         double FrightPower;
         double BleftPower;
         double BrightPower;
-
-
-        // Show the elapsed game time and wheel power.
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+         FleftDrive.setPower(FleftPower);
+        FrightDrive.setPower(FrightPower);
+        BleftDrive.setPower(FleftPower);
+        BrightDrive.setPower(FleftPower); */
+        
+        // double y = -gamepad1.left_stick_y;
+        //double x = gamepad1.left_stick_x * 1.1;
+        //double rx = gamepad1.right_stick_x;
+        
+        double y = 0.75;
+        double x = 1;
+        double rx = 0.2;
+        
+        double frontLeft = y+x-rx;
+        double frontRight = y-x+rx;
+        double backLeft = -y-x-rx;
+        double backRight = -y+x+rx;
+        
+        double max1 = Math.max(Math.abs(frontLeft),Math.abs(frontRight));
+        double max2 = Math.max(Math.abs(backLeft),Math.abs(backRight));
+        double max3 = Math.max(max1,max2);
+        
+        fl.setPower(frontLeft/max3);
+        fr.setPower(frontRight/max3);
+        bl.setPower(backLeft/max3);
+        br.setPower(backRight/max3);
+        
+        
+        
+        
+        
+        
+        
+        
+        
     }
-
+    
     /*
      * Code to run ONCE after the driver hits STOP
      */
     @Override
     public void stop() {
     }
-
+    
 }
