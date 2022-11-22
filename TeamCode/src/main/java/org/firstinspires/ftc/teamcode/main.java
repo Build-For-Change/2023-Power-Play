@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -30,6 +32,8 @@ public class main extends OpMode
 	private DriveBase driveBase;
 	
 	
+
+	
 	
 	/*
 	 * Code to run ONCE when the driver hits INIT
@@ -40,7 +44,8 @@ public class main extends OpMode
 		// Initialize the hardware variables. Note that the strings used here as parameters
 		// to 'get' must correspond to the names assigned during the robot configuration
 		// step (using the FTC Robot Controller app on the phone).
-		driveBase = new DriveBase();
+		driveBase = new DriveBase(hardwareMap);
+
 	}
 	
 	
@@ -78,7 +83,7 @@ public class main extends OpMode
 		double x = 1;
 		double rx = 0.2;
 		
-		driveBase.speedCalc(y, x, rx);
+		driveBase.holonomicDrive(y, x, rx);
 		
 		
 		
