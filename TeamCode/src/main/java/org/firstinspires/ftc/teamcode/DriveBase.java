@@ -4,10 +4,13 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
+
 
 public class DriveBase {
 	private DcMotorEx fl;
@@ -18,12 +21,15 @@ public class DriveBase {
 	public Orientation gyroAngles;
 	public BNO055IMU imu;
 	
+	private Telemetry tel;
+	
 	public void holonomicDrive(double x, double y, double rx){
 		gyroAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+		
 		holonomicDrive(x, y, rx, gyroAngles.firstAngle);
 		
 	}
-	public DriveBase(HardwareMap hardwareMap){
+	public DriveBase(HardwareMap hardwareMap, Telemetry tel){
 		fl = hardwareMap.get(DcMotorEx.class, "fl");
 		fr = hardwareMap.get(DcMotorEx.class, "fr");
 		bl = hardwareMap.get(DcMotorEx.class, "bl");
@@ -33,14 +39,14 @@ public class DriveBase {
 		fr.setDirection(DcMotorSimple.Direction.REVERSE);
 		
 		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-		parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+		parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
 		imu = hardwareMap.get(BNO055IMU.class, "imu");
 		imu.initialize(parameters);
-		
+		this.tel = tel;
 	}
 	private void holonomicDrive(double x, double y, double rx, double currentAngle){
-		double r = Math.sqrt(x*x + y*y);
-		double angle = Math.atan2(y, x);
+		double r = Math.hypot(x,y);
+		double angle = Math.atan2(y, x );
 		angle = angle - currentAngle;
 		x = Math.cos(angle)*r;
 		y = Math.sin(angle)*r;

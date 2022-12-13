@@ -44,7 +44,9 @@ public class main extends OpMode
 		// Initialize the hardware variables. Note that the strings used here as parameters
 		// to 'get' must correspond to the names assigned during the robot configuration
 		// step (using the FTC Robot Controller app on the phone).
-		driveBase = new DriveBase(hardwareMap);
+		driveBase = new DriveBase(hardwareMap, telemetry);
+		Elevator instance = new Elevator();
+		instance.elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 	}
 	
