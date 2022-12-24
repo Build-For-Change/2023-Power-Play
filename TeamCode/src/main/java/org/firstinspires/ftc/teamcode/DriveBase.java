@@ -20,16 +20,14 @@ public class DriveBase {
 	
 	public Orientation gyroAngles;
 	public BNO055IMU imu;
-	
-	private Telemetry tel;
-	
+
 	public void holonomicDrive(double x, double y, double rx){
 		gyroAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 		
 		holonomicDrive(x, y, rx, gyroAngles.firstAngle);
 		
 	}
-	public DriveBase(HardwareMap hardwareMap, Telemetry tel){
+	public DriveBase(HardwareMap hardwareMap){
 		fl = hardwareMap.get(DcMotorEx.class, "fl");
 		fr = hardwareMap.get(DcMotorEx.class, "fr");
 		bl = hardwareMap.get(DcMotorEx.class, "bl");
@@ -42,7 +40,6 @@ public class DriveBase {
 		parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
 		imu = hardwareMap.get(BNO055IMU.class, "imu");
 		imu.initialize(parameters);
-		this.tel = tel;
 	}
 	private void holonomicDrive(double x, double y, double rx, double currentAngle){
 		double r = Math.hypot(x,y);
