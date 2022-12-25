@@ -38,10 +38,24 @@ public class main extends LinearOpMode
 	private double lastServoLocation;
 
 	public void handleServo() {
+		/*
 		if (gamepad2.y) {
 			lastServoLocation = 1 - lastServoLocation;
 			servo.setPosition(lastServoLocation);
 		}
+		*/
+		if (gamepad2.b) {
+			servo.setPosition(0);
+		}
+		else if (gamepad2.x){
+			servo.setPosition(1);
+		}
+		else{
+			servo.setPosition(0.5);
+		}
+
+
+
 	}
 
 	@Override
@@ -59,7 +73,8 @@ public class main extends LinearOpMode
 			double x = gamepad1.right_stick_x;
 			double rx = gamepad1.left_stick_x;
 
-			driveBase.holonomicDrive(y, x, rx);
+			//driveBase.holonomicDrive(y, x, rx);
+			driveBase.speedCalc(y, x, rx)
 
 			elevator.moveElevator();
 

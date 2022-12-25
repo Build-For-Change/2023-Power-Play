@@ -49,7 +49,7 @@ public class DriveBase {
 		y = Math.sin(angle)*r;
 		speedCalc(x, y, rx);
 	}
-	private void speedCalc(double x, double y, double rx)
+	public void speedCalc(double x, double y, double rx)
 	{
 		
 		double frontLeft = y + x - rx;
