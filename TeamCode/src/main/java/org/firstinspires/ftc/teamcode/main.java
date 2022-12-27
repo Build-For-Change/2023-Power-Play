@@ -56,6 +56,7 @@ public class main extends LinearOpMode
 
 
 
+
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class main extends LinearOpMode
 			double rx = gamepad1.left_stick_x;
 
 			//driveBase.holonomicDrive(y, x, rx);
-			driveBase.speedCalc(y, x, rx)
+			driveBase.speedCalc(y, x, rx);
 
 			elevator.moveElevator();
 
