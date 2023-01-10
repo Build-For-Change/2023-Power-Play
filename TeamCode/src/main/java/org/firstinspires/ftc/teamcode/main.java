@@ -1,17 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -33,37 +26,20 @@ public class main extends LinearOpMode
 	// Declare OpMode members.
 	private DriveBase driveBase;
 	private Elevator elevator;
-	private Servo servo;
 
 	private double lastServoLocation;
 
-	public void handleServo() {
-		/*
-		if (gamepad2.y) {
-			lastServoLocation = 1 - lastServoLocation;
-			servo.setPosition(lastServoLocation);
-		}
-		*/
-		if (gamepad2.b) {
-			servo.setPosition(0);
-		}
-		else if (gamepad2.x){
-			servo.setPosition(1);
-		}
-		else{
-			servo.setPosition(0.5);
-		}
 
 
 
 
-	}
+
 
 	@Override
 	public void runOpMode() {
+
 		driveBase = new DriveBase(hardwareMap);
 		elevator = new Elevator(hardwareMap, gamepad2);
-		servo = hardwareMap.servo.get("hand");
 
 		lastServoLocation = 0;
 
@@ -74,12 +50,12 @@ public class main extends LinearOpMode
 			double x = gamepad1.right_stick_x;
 			double rx = gamepad1.left_stick_x;
 
-			//driveBase.holonomicDrive(y, x, rx);
-			driveBase.speedCalc(y, x, rx);
 
+			driveBase.fieldCentricDrive(x, y, rx);
+			//driveBase.robotCentricDrive(x, y, rx);
 			elevator.moveElevator();
 
-			handleServo();
+			// handleServo();
 		}
 	}
 }
