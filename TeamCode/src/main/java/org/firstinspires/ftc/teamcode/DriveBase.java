@@ -13,7 +13,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 
-
 public class DriveBase {
 	private Motor fl;
 	private Motor fr;
@@ -25,8 +24,10 @@ public class DriveBase {
 	public Orientation gyroAngles;
 	public BNO055IMU imu;
 
+
+
 	public void holonomicDrive(double x, double y, double rx){
-		gyroAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+
 		
 		//fieldCentricDrive(x, y, rx, gyroAngles.firstAngle);
 		
@@ -37,15 +38,16 @@ public class DriveBase {
 		bl = new Motor(hardwareMap, "bl");
 		br = new Motor(hardwareMap, "br");
 
-		mecanum = new MecanumDrive(fl, fr, bl, br);
-
 		br.setInverted(true);
 		fr.setInverted(true);
+
+		mecanum = new MecanumDrive(fl, fr, bl, br);
 		
 		BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 		parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
 		imu = hardwareMap.get(BNO055IMU.class, "imu");
 		imu.initialize(parameters);
+		gyroAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 	}
 //	private void holonomicDrive(double x, double y, double rx, double currentAngle){
 //		double r = Math.hypot(x,y);
@@ -73,8 +75,11 @@ public class DriveBase {
 //		br.setPower(backRight / max3);
 //	}
 
+	// public Orientation gyroReading = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+
 	public void fieldCentricDrive(double x, double y, double rx){
-		mecanum.driveFieldCentric(x, y, rx, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+		mecanum.driveFieldCentric(x, y, rx, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).thirdAngle);
+
 	}
 	public void robotCentricDrive(double x, double y, double rx){
 		mecanum.driveRobotCentric(x, y, rx);

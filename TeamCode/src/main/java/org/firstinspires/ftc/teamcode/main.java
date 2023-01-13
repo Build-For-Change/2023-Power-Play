@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
  * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
@@ -26,6 +27,7 @@ public class main extends LinearOpMode
 	// Declare OpMode members.
 	private DriveBase driveBase;
 	private Elevator elevator;
+	private GamepadEx gamepad1 = new GamepadEx();
 
 	private double lastServoLocation;
 
@@ -33,26 +35,34 @@ public class main extends LinearOpMode
 
 
 
-
-
 	@Override
 	public void runOpMode() {
-
+		//telemetry.addData("Gyro data: ", driveBase.gyroAngles);
+		//telemetry.update();
 		driveBase = new DriveBase(hardwareMap);
 		elevator = new Elevator(hardwareMap, gamepad2);
+
 
 		lastServoLocation = 0;
 
 		waitForStart();
 		if (isStopRequested()) return;
+
+		Deadzone deadzone = new Deadzone(0.1);
+
 		while (opModeIsActive()) {
-			double y = gamepad1.right_stick_y;
-			double x = gamepad1.right_stick_x;
-			double rx = gamepad1.left_stick_x;
+			double y = deadzone.apply(gamepad1.right_stick_y);
+			double x = deadzone.apply(gamepad1.right_stick_x);
+			double rx = deadzone.apply(gamepad1.left_stick_x);
+
+			// double y = 0;
+			// double x = 0.5;
+			// double rx = 0;
 
 
-			driveBase.fieldCentricDrive(x, y, rx);
-			//driveBase.robotCentricDrive(x, y, rx);
+
+			//driveBase.fieldCentricDrive(x, y, rx);
+			driveBase.robotCentricDrive(x, y, rx);
 			elevator.moveElevator();
 
 			// handleServo();
