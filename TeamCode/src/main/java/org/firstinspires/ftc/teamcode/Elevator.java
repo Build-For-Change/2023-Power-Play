@@ -14,7 +14,7 @@ public class Elevator {
 	}
 
 	public void moveElevator() {
-		double power = (gamepad.right_trigger - gamepad.left_trigger)/0.8;
+		double power = (gamepad.right_trigger - gamepad.left_trigger)/0.95;
 		elevatorMotor.setPower(power);
 	}
 

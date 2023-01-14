@@ -27,7 +27,7 @@ public class main extends LinearOpMode
 	// Declare OpMode members.
 	private DriveBase driveBase;
 	private Elevator elevator;
-	private GamepadEx gamepad1 = new GamepadEx();
+	private Gripper gripper;
 
 	private double lastServoLocation;
 
@@ -41,6 +41,7 @@ public class main extends LinearOpMode
 		//telemetry.update();
 		driveBase = new DriveBase(hardwareMap);
 		elevator = new Elevator(hardwareMap, gamepad2);
+		gripper = new Gripper(hardwareMap);
 
 
 		lastServoLocation = 0;
@@ -51,19 +52,26 @@ public class main extends LinearOpMode
 		Deadzone deadzone = new Deadzone(0.1);
 
 		while (opModeIsActive()) {
-			double y = deadzone.apply(gamepad1.right_stick_y);
-			double x = deadzone.apply(gamepad1.right_stick_x);
-			double rx = deadzone.apply(gamepad1.left_stick_x);
+//			double y = deadzone.apply(gamepad1.right_stick_y);
+//			double x = -deadzone.apply(gamepad1.right_stick_x);
 
-			// double y = 0;
-			// double x = 0.5;
-			// double rx = 0;
+
+			int up = gamepad1.dpad_up ? 1 : 0;
+			int down = gamepad1.dpad_down ? 1 : 0;
+			int left = gamepad1.dpad_left ? 1 : 0;
+			int right = gamepad1.dpad_right ? 1 : 0;
+
+			double y = (up - down)/2;
+			double x = (right - left)/2;
+			double rx = -deadzone.apply(gamepad1.right_stick_x);
+
 
 
 
 			//driveBase.fieldCentricDrive(x, y, rx);
-			driveBase.robotCentricDrive(x, y, rx);
+			driveBase.speedCalc(x, y, rx);
 			elevator.moveElevator();
+			gripper.handleServo(gamepad2);
 
 			// handleServo();
 		}
