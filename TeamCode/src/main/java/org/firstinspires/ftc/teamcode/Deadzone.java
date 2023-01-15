@@ -11,10 +11,10 @@ public class Deadzone {
     public double apply(double x){
         double sign = Math.signum(x);
         double abs = Math.abs(x);
+        double max = Math.max(0, (abs - minI)/(1-minI));
 
 
-        double output = (abs - minI)/(1-minI) * sign;
-        return output;
+        return max * sign;
     }
 
 }
