@@ -39,10 +39,11 @@ public class main extends LinearOpMode
 	public void runOpMode() {
 		//telemetry.addData("Gyro data: ", driveBase.gyroAngles);
 		//telemetry.update();
+		int minPosition = -1012829;
 		driveBase = new DriveBase(hardwareMap);
-		elevator = new Elevator(hardwareMap, gamepad2);
+		elevator = new Elevator(hardwareMap, gamepad2, minPosition);
 		gripper = new Gripper(hardwareMap);
-
+		elevator.minPosition = elevator.elevatorMotor.getCurrentPosition();
 
 		lastServoLocation = 0;
 
