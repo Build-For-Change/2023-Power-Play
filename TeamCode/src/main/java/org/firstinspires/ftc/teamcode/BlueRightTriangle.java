@@ -3,8 +3,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@Autonomous(name = "AutonomousDrive", group = "Iterative Opmode")
-public class AutonomousDrive extends LinearOpMode{
+@Autonomous(name = "BlueRightTriangle", group = "Iterative Opmode")
+public class BlueRightTriangle extends LinearOpMode{
 
     private DcMotorEx fl;
     private DcMotorEx fr;
@@ -46,9 +46,12 @@ public class AutonomousDrive extends LinearOpMode{
         bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
+        // Move 80 cm to the right to reach the blue right triangle
+        moveRight(31.5, medium);
+
     }
 
-    private void moveForward(int targetDistance, double speed) {
+    private void moveForward(double targetDistance, double speed) {
         // targetDistance is in inches. A negative targetDistance moves backward.
 
         // fetch motor positions
@@ -93,7 +96,7 @@ public class AutonomousDrive extends LinearOpMode{
         br.setPower(0);
     }
 
-    private void moveRight(int targetDistance, double speed) {
+    private void moveRight(double targetDistance, double speed) {
         // targetDistance is in inches. A negative targetDistance moves backward.
 
         // fetch motor positions
