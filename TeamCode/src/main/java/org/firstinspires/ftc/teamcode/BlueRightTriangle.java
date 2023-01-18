@@ -14,7 +14,7 @@ public class BlueRightTriangle extends LinearOpMode{
     private double fast = 0.5;
     private double medium = 0.3;
     private double slow = 0.1;
-    private double clicksPerInch = 11.87;
+    private double clicksPerInch = 45.3;
     // private double clicksPerDeg = 21.94;
     private double lineThreshold = 0.7;
     private double redThreshold = 1.9;
@@ -41,13 +41,12 @@ public class BlueRightTriangle extends LinearOpMode{
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        waitForStart();
 
         // Move 80 cm to the right to reach the blue right triangle
-        moveRight(31.5, medium);
+        moveRight(-31.5, medium);
+
 
     }
 
@@ -75,6 +74,11 @@ public class BlueRightTriangle extends LinearOpMode{
         fr.setPower(speed);
         bl.setPower(speed);
         br.setPower(speed);
+
+        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         // wait for move to complete
         while (fl.isBusy() && fr.isBusy() &&
@@ -120,6 +124,11 @@ public class BlueRightTriangle extends LinearOpMode{
         fr.setPower(speed);
         bl.setPower(speed);
         br.setPower(speed);
+
+        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         // wait for move to complete
         while (fl.isBusy() && fr.isBusy() &&

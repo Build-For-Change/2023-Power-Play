@@ -6,19 +6,24 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Gripper {
 
-    Servo servo;
+    Servo servo1;
+    Servo servo2;
   public Gripper(HardwareMap hardwareMap){
-        servo = hardwareMap.servo.get("hand");
+        servo1 = hardwareMap.servo.get("hand1");
+        servo2 = hardwareMap.servo.get("hand2");
     }
 
 
     public void handleServo(Gamepad gamepad) {
         if (gamepad.b) {
-            servo.setPosition(0);
+            servo1.setPosition(0);
+            servo2.setPosition(0);
         } else if (gamepad.x) {
-            servo.setPosition(1);
+            servo1.setPosition(1);
+            servo2.setPosition(-1);
         } else {
-            servo.setPosition(0.5);
+            servo1.setPosition(0.5);
+            servo2.setPosition(0.5);
         }
     }
 }

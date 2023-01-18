@@ -76,10 +76,10 @@ public class DriveBase {
 		double max2 = Math.max(Math.abs(backLeft), Math.abs(backRight));
 		double max3 = Math.max(max1, max2);
 
-		fl.setPower(frontLeft / max3);
-		fr.setPower(frontRight / max3);
-		bl.setPower(backLeft / max3);
-		br.setPower(backRight / max3);
+		fl.setPower((frontLeft / max3)*0.5);
+		fr.setPower((frontRight / max3)*0.5);
+		bl.setPower((backLeft / max3)*0.5);
+		br.setPower((backRight / max3)*0.5);
 
 
 

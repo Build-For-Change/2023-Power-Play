@@ -15,7 +15,7 @@ public class LowLeft extends LinearOpMode{
     private double fast = 0.5;
     private double medium = 0.3;
     private double slow = 0.1;
-    private double clicksPerInch = 11.87;
+    private double clicksPerInch = 45.3;
     // private double clicksPerDeg = 21.94;
     private double lineThreshold = 0.7;
     private double redThreshold = 1.9;
@@ -49,9 +49,9 @@ public class LowLeft extends LinearOpMode{
         br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         // Move 20 cm to the right
-        moveRight(7.87, slow);
+        moveRight(-7.87, slow);
         // Move elevator 4 revolutions up
-        moveElevator(4, slow);
+        moveElevator(4, fast);
         // Move 20.5 cm forward
         moveForward(8.07, slow);
 
@@ -128,17 +128,6 @@ public class LowLeft extends LinearOpMode{
         br.setPower(speed);
 
         // wait for move to complete
-        while (fl.isBusy() && fr.isBusy() &&
-                bl.isBusy() && br.isBusy()) {
-
-            // Display it for the driver.
-            telemetry.addLine("Strafe Right");
-            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
-            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
-                    fr.getCurrentPosition(), bl.getCurrentPosition(),
-                    br.getCurrentPosition());
-            telemetry.update();
-        }
 
         // Stop all motion;
         fl.setPower(0);
@@ -155,7 +144,7 @@ public class LowLeft extends LinearOpMode{
         elevatorPos = elevatorMotor.getCurrentPosition();
 
         // calculate new targets
-        int ticksPerRevolution = 100;
+        int ticksPerRevolution = 288 ;
         elevatorPos += targetDistance * ticksPerRevolution;
 
         // move robot to new position

@@ -1,7 +1,11 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 @Autonomous(name = "LowRight", group = "Iterative Opmode")
 public class LowRight extends LinearOpMode{
@@ -11,11 +15,13 @@ public class LowRight extends LinearOpMode{
     private DcMotorEx bl;
     private DcMotorEx br;
     public DcMotorEx elevatorMotor;
+    public Servo servo1;
+    public Servo servo2;
 
     private double fast = 0.5;
     private double medium = 0.3;
     private double slow = 0.1;
-    private double clicksPerInch = 11.87;
+    private double clicksPerInch = 45.3;
     // private double clicksPerDeg = 21.94;
     private double lineThreshold = 0.7;
     private double redThreshold = 1.9;
@@ -35,6 +41,7 @@ public class LowRight extends LinearOpMode{
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
+        elevatorMotor = hardwareMap.get(DcMotorEx.class, "lift");
 
         br.setDirection(DcMotorEx.Direction.REVERSE);
         fr.setDirection(DcMotorEx.Direction.REVERSE);
@@ -43,17 +50,21 @@ public class LowRight extends LinearOpMode{
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+        elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        waitForStart();
 
         // Move 20 cm to the left
-        moveRight(-7.87, slow);
+        moveRight(-7.87, 0.4);
+
         // Move elevator 4 revolutions up
-        moveElevator(4, slow);
+        //moveElevator(6, 0.4);
         // Move 20.5 cm forward
-        moveForward(8.07, slow);
+        //moveForward(8.07, 0.4);
+        // Open gripper
+        moveGripper();
+
+
 
     }
 
@@ -82,18 +93,23 @@ public class LowRight extends LinearOpMode{
         bl.setPower(speed);
         br.setPower(speed);
 
-        // wait for move to complete
-        while (fl.isBusy() && fr.isBusy() &&
-                bl.isBusy() && br.isBusy()) {
+        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-            // Display it for the driver.
-            telemetry.addLine("Move Forward");
-            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
-            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
-                    fr.getCurrentPosition(), bl.getCurrentPosition(),
-                    br.getCurrentPosition());
-            telemetry.update();
-        }
+        // wait for move to complete
+//        while (fl.isBusy() && fr.isBusy() &&
+//                bl.isBusy() && br.isBusy()) {
+//
+//            // Display it for the driver.
+////            telemetry.addLine("Move Forward");
+//            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
+//            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
+//                    fr.getCurrentPosition(), bl.getCurrentPosition(),
+//                    br.getCurrentPosition());
+
+
 
         // Stop all motion;
         fl.setPower(0);
@@ -127,18 +143,21 @@ public class LowRight extends LinearOpMode{
         bl.setPower(speed);
         br.setPower(speed);
 
-        // wait for move to complete
-        while (fl.isBusy() && fr.isBusy() &&
-                bl.isBusy() && br.isBusy()) {
+        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
-            // Display it for the driver.
-            telemetry.addLine("Strafe Right");
-            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
-            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
-                    fr.getCurrentPosition(), bl.getCurrentPosition(),
-                    br.getCurrentPosition());
-            telemetry.update();
-        }
+        // wait for move to complete
+//        while (fl.isBusy() && fr.isBusy() &&
+//                bl.isBusy() && br.isBusy()) {
+//
+//            // Display it for the driver.
+//            telemetry.addLine("Strafe Right");
+////            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
+////            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
+//            telemetry.update();
+
 
         // Stop all motion;
         fl.setPower(0);
@@ -148,32 +167,48 @@ public class LowRight extends LinearOpMode{
 
     }
 
-    private void moveElevator(double targetDistance, double speed){
+    private void moveElevator(int targetDistance, double speed){
         // targetDistance is in amount of revolutions
 
         // fetch motor positions
-        elevatorPos = elevatorMotor.getCurrentPosition();
+        elevatorPos = 0;
 
         // calculate new targets
-        int ticksPerRevolution = 100;
+        int ticksPerRevolution = 288;
         elevatorPos += targetDistance * ticksPerRevolution;
 
         // move robot to new position
-        elevatorMotor.setTargetPosition(elevatorPos);
-        elevatorMotor.setPower(speed);
-
-        // Wait for the move to complete and display it to the driver
-        while(elevatorMotor.isBusy()){
-            telemetry.addLine("Move elevator");
-            telemetry.addData("Target:", "%7d :%7d", elevatorPos);
-            telemetry.addData("Actual:", "%7d :%7d", elevatorMotor.getCurrentPosition());
+        telemetry.addData("hear",true);
+        telemetry.update();
+        elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        while (elevatorMotor.getCurrentPosition() < elevatorPos){
+            elevatorMotor.setPower(speed);
+            telemetry.addData("Elevator:", elevatorMotor.getCurrentPosition());
             telemetry.update();
         }
+
+
+
+        // Wait for the move to complete and display it to the driver
+//        while(elevatorMotor.isBusy()){
+//            telemetry.addLine("Move elevator");
+//            telemetry.addData("Target:", "%7d :%7d", elevatorPos);
+//            telemetry.addData("Actual:", "%7d :%7d", elevatorMotor.getCurrentPosition());
+//            telemetry.update();
+//        }
 
         // Stop all motion
         elevatorMotor.setPower(0);
 
 
+    }
+
+    public void moveGripper(){
+        servo1 = hardwareMap.servo.get("hand1");
+        servo2 = hardwareMap.servo.get("hand2");
+        servo1.setPosition(1);
+        servo2.setPosition(-1);
     }
 
 //    private void turnClockwise(int angle, double speed) {
