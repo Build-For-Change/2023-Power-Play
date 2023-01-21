@@ -33,6 +33,7 @@ public class LowRight extends LinearOpMode{
     private int elevatorPos;
 
 
+
     @Override
     public void runOpMode(){
         telemetry.setAutoClear(true);
@@ -55,14 +56,17 @@ public class LowRight extends LinearOpMode{
         waitForStart();
 
         // Move 20 cm to the left
-        moveRight(-7.87, 0.4);
+        moveRight(-7.87, medium);
+
 
         // Move elevator 4 revolutions up
         //moveElevator(6, 0.4);
         // Move 20.5 cm forward
-        //moveForward(8.07, 0.4);
+//        moveForward(8.07, medium);
+
+
         // Open gripper
-        moveGripper();
+//        moveGripper();
 
 
 

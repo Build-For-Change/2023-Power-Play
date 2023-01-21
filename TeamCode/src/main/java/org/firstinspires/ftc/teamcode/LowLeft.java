@@ -43,10 +43,6 @@ public class LowLeft extends LinearOpMode{
         fr.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         bl.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 
         // Move 20 cm to the right
         moveRight(-7.87, slow);

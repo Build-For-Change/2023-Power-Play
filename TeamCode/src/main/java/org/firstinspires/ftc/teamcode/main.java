@@ -53,9 +53,14 @@ public class main extends LinearOpMode
 		Deadzone deadzone = new Deadzone(0.1);
 
 		while (opModeIsActive()) {
-			double y = deadzone.apply(gamepad1.right_stick_y);
-			double x = -deadzone.apply(gamepad1.right_stick_x);
-			double rx = -deadzone.apply(gamepad1.left_stick_x);
+//			double y = deadzone.apply(gamepad1.right_stick_y);
+//			double x = -deadzone.apply(gamepad1.right_stick_x);
+//			double rx = -deadzone.apply(gamepad1.left_stick_x);
+
+			double y = (gamepad1.right_stick_y);
+			double x = (gamepad1.right_stick_x);
+			double rx = (gamepad1.left_stick_x);
+
 
 
 			//driveBase.fieldCentricDrive(x, y, rx);

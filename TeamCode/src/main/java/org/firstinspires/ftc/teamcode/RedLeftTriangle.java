@@ -45,12 +45,12 @@ public class RedLeftTriangle extends LinearOpMode{
         waitForStart();
 
         // Move 80 cm to the left to reach the red left triangle
-        moveRight(31.5, medium);
+        moveLeft(31.5, medium);
 
     }
 
-    private void moveForward(double targetDistance, double speed) {
-        // targetDistance is in inches. A negative targetDistance moves backward.
+    private void moveBackwards(double targetDistance, double speed) {
+        // targetDistance is in inches. A negative targetDistance moves forward.
 
         // fetch motor positions
         flPos = fl.getCurrentPosition();
@@ -99,8 +99,8 @@ public class RedLeftTriangle extends LinearOpMode{
         br.setPower(0);
     }
 
-    private void moveRight(double targetDistance, double speed) {
-        // targetDistance is in inches. A negative targetDistance moves backward.
+    private void moveLeft(double targetDistance, double speed) {
+        // targetDistance is in inches. A negative targetDistance moves right.
 
         // fetch motor positions
         flPos = fl.getCurrentPosition();
@@ -150,49 +150,6 @@ public class RedLeftTriangle extends LinearOpMode{
 
     }
 
-//    private void turnClockwise(int angle, double speed) {
-//        // angle is in degrees. A negative angle turns counterclockwise.
-//
-//        // fetch motor positions
-//        flPos = fl.getCurrentPosition();
-//        frPos = fr.getCurrentPosition();
-//        blPos = bl.getCurrentPosition();
-//        brPos = br.getCurrentPosition();
-//
-//        // calculate new targets
-//        flPos += angle * clicksPerDeg;
-//        frPos -= angle * clicksPerDeg;
-//        blPos += angle * clicksPerDeg;
-//        brPos -= angle * clicksPerDeg;
-//
-//        // move robot to new position
-//        fl.setTargetPosition(flPos);
-//        fr.setTargetPosition(frPos);
-//        bl.setTargetPosition(blPos);
-//        br.setTargetPosition(brPos);
-//        fl.setPower(speed);
-//        fr.setPower(speed);
-//        bl.setPower(speed);
-//        br.setPower(speed);
-//
-//        // wait for move to complete
-//        while (fl.isBusy() && fr.isBusy() &&
-//                bl.isBusy() && br.isBusy()) {
-//
-//            // Display it for the driver.
-//            telemetry.addLine("Turn Clockwise");
-//            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
-//            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
-//                    fr.getCurrentPosition(), bl.getCurrentPosition(),
-//                    br.getCurrentPosition());
-//            telemetry.update();
-//        }
-//
-//        // Stop all motion;
-//        fl.setPower(0);
-//        fr.setPower(0);
-//        bl.setPower(0);
-//        br.setPower(0);
-//    }
+
 
 }

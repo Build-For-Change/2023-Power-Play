@@ -20,7 +20,7 @@ public class Gripper {
             servo2.setPosition(0);
         } else if (gamepad.x) {
             servo1.setPosition(1);
-            servo2.setPosition(-1);
+            servo2.setPosition(1);
         } else {
             servo1.setPosition(0.5);
             servo2.setPosition(0.5);
