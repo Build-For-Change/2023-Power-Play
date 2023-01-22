@@ -58,8 +58,8 @@ public class main extends LinearOpMode
 //			double rx = -deadzone.apply(gamepad1.left_stick_x);
 
 			double y = (gamepad1.right_stick_y);
-			double x = (gamepad1.right_stick_x);
-			double rx = (gamepad1.left_stick_x);
+			double x = (-gamepad1.right_stick_x);
+			double rx = (-gamepad1.left_stick_x);
 
 
 

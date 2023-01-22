@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -12,12 +13,12 @@ public class HighRight extends LinearOpMode{
     public DcMotorEx bl;
     public DcMotorEx br;
     public DcMotorEx elevatorMotor;
-    public Servo servo1;
-    public Servo servo2;
+    public CRServo servo1;
+    public CRServo servo2;
 
-    public double fast = 0.5;
-    public double medium = 0.3;
-    public double slow = 0.1;
+    public double fast = 0.7;
+    public double medium = 0.4;
+    public double slow = 0.2;
     public double clicksPerInch = 45.3;
     private double clicksPerDeg = 11.36;
     public double lineThreshold = 0.7;
@@ -39,8 +40,8 @@ public class HighRight extends LinearOpMode{
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "lift");
-        servo1 = hardwareMap.servo.get("hand1");
-        servo2 = hardwareMap.servo.get("hand2");
+        servo1 = hardwareMap.crservo.get("hand1");
+        servo2 = hardwareMap.crservo.get("hand2");
 
 
         br.setDirection(DcMotorEx.Direction.REVERSE);
@@ -65,28 +66,36 @@ public class HighRight extends LinearOpMode{
 //        turnClockwise(-45, medium);
 
         // Move towards medium junction
-
+        //moveGripper(-1,-1,0);
         // 10 cm right
+        moveGripper(-1,-1,1500);
         moveLeft(-3.94, medium);
         // 68.5 cm forward
         moveBackwards(-26.97, medium);
         // 30 cm left
-        moveLeft(11.81, medium);
+        moveLeft(14, medium);
         // Move elevator up
+        moveElevator(12,medium);
+        moveBackwards(-2,slow);
+        moveElevator(-10, medium);
         // Release gripper
+        moveGripper(1,1,500);
         // Move elevator down
 
         // Move towards cones on the right
 
-        // 30 cm right
-        moveLeft(-11.81, medium);
-        // 60 cm forward
-        moveBackwards(-23.62, medium);
-        // 90 clockwise
-        turnAnticlockwise(-90, medium);
-        // 60 cm forward
-        moveBackwards(-23.62, medium);
-        // Close gripper
+//        // 30 cm right
+//        moveLeft(-11.81, medium);
+//        // 60 cm forward
+//        moveBackwards(-20, medium);
+//        // 90 clockwise
+//        turnAnticlockwise(-90, slow);
+//        // 60 cm forward
+//        moveBackwards(-23.62, medium);
+//        moveBackwards(23.62,medium);
+//        turnAnticlockwise(220,slow);
+//        // Close gripper
+
 
 
 
@@ -209,8 +218,8 @@ public class HighRight extends LinearOpMode{
         telemetry.update();
         elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         elevatorMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        while (elevatorMotor.getCurrentPosition() < elevatorPos) {
-            elevatorMotor.setPower(speed);
+        while (Math.abs(elevatorMotor.getCurrentPosition()) < Math.abs(elevatorPos)) {
+            elevatorMotor.setPower(speed * Math.signum(elevatorPos));
             telemetry.addData("Elevator:", elevatorMotor.getCurrentPosition());
             telemetry.update();
         }
@@ -218,10 +227,12 @@ public class HighRight extends LinearOpMode{
         elevatorMotor.setPower(0);
     }
 
-    public void moveGripper(double position1, double position2, int sleepTime){
-        servo1.setPosition(position1);
-        servo2.setPosition(position2);
+    public void moveGripper(double power1, double power2, int sleepTime){
+        servo1.setPower(power1);
+        servo2.setPower(power2);
         sleep(sleepTime);
+        servo2.setPower(0);
+        servo1.setPower(0);
     }
 
     private void turnAnticlockwise(int whatAngle, double speed) {
