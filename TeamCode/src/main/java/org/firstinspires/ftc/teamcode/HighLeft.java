@@ -17,8 +17,8 @@ public class HighLeft extends LinearOpMode{
     public CRServo servo1;
     public CRServo servo2;
 
-    public double testVoltage = 12;
-    public double currentVoltage = 12;
+    public double testVoltage = 12.83;
+    public double currentVoltage = 12.83;
 
     public double fast = 0.7;
     public double medium = 0.4;
@@ -78,18 +78,19 @@ public class HighLeft extends LinearOpMode{
         // 68.5 cm forward
         moveBackwards(-26.97, vcMedium);
         // 30 cm left
-        moveLeft(-14, vcMedium);
+        moveLeft(-11.2, vcMedium);
         // Move elevator up
         moveElevator(12,medium);
-        moveBackwards(-2,vcMedium);
-        moveElevator(-10, medium);
+        moveBackwards(-3.75,vcMedium);
+        moveElevator(-4, medium);
         // Release gripper
         moveGripper(1,1,500);
         // Move elevator down
-        moveBackwards(2,vcMedium);
-        moveLeft(14,vcMedium);
-        moveBackwards(26.97,vcMedium);
+        moveBackwards(4,vcMedium);
+        moveLeft(13.5,vcMedium);
+        moveBackwards(29,vcMedium);
         moveLeft(32,vcMedium);
+        moveElevator(-8,medium);
         // Move towards cones on the right
 
 //        // 30 cm right
