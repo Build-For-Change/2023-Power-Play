@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.BatteryChecker;
 
 @Autonomous(name = "High Left", group = "Iterative Opmode")
 public class HighLeft extends LinearOpMode{
@@ -16,9 +17,13 @@ public class HighLeft extends LinearOpMode{
     public CRServo servo1;
     public CRServo servo2;
 
+    public double testVoltage = 12;
+    public double currentVoltage = 12;
+
     public double fast = 0.7;
     public double medium = 0.4;
     public double slow = 0.2;
+    public double vcMedium = medium * (testVoltage/currentVoltage);
     public double clicksPerInch = 45.3;
     private double clicksPerDeg = 11.36;
     public double lineThreshold = 0.7;
@@ -69,22 +74,22 @@ public class HighLeft extends LinearOpMode{
         //moveGripper(-1,-1,0);
         // 10 cm right
         moveGripper(-1,-1,1200);
-        moveLeft(3.94, medium);
+        moveLeft(3.94, vcMedium);
         // 68.5 cm forward
-        moveBackwards(-26.97, medium);
+        moveBackwards(-26.97, vcMedium);
         // 30 cm left
-        moveLeft(-14, medium);
+        moveLeft(-14, vcMedium);
         // Move elevator up
         moveElevator(12,medium);
-        moveBackwards(-2,slow);
+        moveBackwards(-2,vcMedium);
         moveElevator(-10, medium);
         // Release gripper
         moveGripper(1,1,500);
         // Move elevator down
-        moveBackwards(2,medium);
-        moveLeft(14,medium);
-        moveBackwards(26.97,medium);
-        moveLeft(32,medium);
+        moveBackwards(2,vcMedium);
+        moveLeft(14,vcMedium);
+        moveBackwards(26.97,vcMedium);
+        moveLeft(32,vcMedium);
         // Move towards cones on the right
 
 //        // 30 cm right
