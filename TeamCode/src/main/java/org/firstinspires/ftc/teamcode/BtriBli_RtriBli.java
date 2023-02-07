@@ -7,7 +7,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -15,13 +14,11 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
 @Autonomous (name="Webcam Test", group="Iterative Opmode")
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
+public class BtriBli_RtriBli extends LinearOpMode
 {
 
     public DcMotorEx fl;
@@ -123,6 +120,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
             telemetry.addLine("Test");
             System.out.println("test");
+            //for this we go for the first low junction
+
             if (currentDetections.size() != 0) {
                 boolean tagFound = false;
                 AprilTagDetection tag = currentDetections.get(0);
@@ -130,13 +129,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
                     System.out.println("The ID of the tag: "+ tag.id);
                     tagFound = true;
                     moveGripper(-1, -1,1200 );
-                    moveElevator(4, medium);
-                    moveBackwards(3.54, vcMedium);
-                    moveLeft(-39.57, vcMedium);
-                    moveElevator(10, medium); // placeholder value (low junction)
-                    moveBackwards(-3.54, vcMedium);
-                    moveGripper(1, 1, 1200);
-                    moveLeft(-11.81, vcMedium);
+                    moveElevator(14, medium);//placeholder value (low junction)
+                    moveLeft(-15.94, vcMedium);
+                    //drop
+                    moveLeft(-11.81,vcMedium);
                     moveBackwards(-23.62, vcMedium);
                     break;
                     }
@@ -144,29 +140,21 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
                     System.out.println("The ID of the tag: "+ tag.id);
                     tagFound = true;
                     moveGripper(-1, -1,1200 );
-                    moveElevator(4, medium);
-                    moveBackwards(3.54, vcMedium);
-                    moveLeft(-39.57, vcMedium);
-                    moveElevator(10, medium); // placeholder value (low junction)
-                    moveBackwards(-3.54, vcMedium);
-                    moveGripper(1, 1, 1200);
-                    moveLeft(-11.81, vcMedium);
+                    moveElevator(14, medium);//placeholder value (low junction)
+                    moveLeft(-15.94, vcMedium);
+                    //drop
+                    moveLeft(-11.81,vcMedium);
                     break;
                 }
                 if (tag.id == ID_TAG_OF_INTEREST_3) {
                     System.out.println("The ID of the tag: "+ tag.id);
                     tagFound = true;
                     moveGripper(-1, -1,1200 );
-                    moveElevator(4, medium);
-                    moveBackwards(3.54, vcMedium);
-                    moveLeft(-39.57, vcMedium);
-                    moveElevator(10, medium); // placeholder value (low junction)
-                    moveBackwards(-3.54, vcMedium);
-                    moveGripper(1, 1, 1200);
-
-
-                    moveLeft(-11.81, vcMedium);
-                    moveBackwards(23.62,vcMedium);
+                    moveElevator(14, medium);//placeholder value (low junction)
+                    moveLeft(-15.94, vcMedium);
+                    //drop
+                    moveLeft(-11.81,vcMedium);
+                    moveBackwards(23.62, vcMedium);
                     break;
                 }
 
