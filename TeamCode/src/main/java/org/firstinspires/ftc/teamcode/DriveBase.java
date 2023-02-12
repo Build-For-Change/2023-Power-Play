@@ -8,6 +8,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -20,6 +22,7 @@ public class DriveBase {
 	private DcMotorEx fr;
 	private DcMotorEx bl;
 	private DcMotorEx br;
+//	private VoltageSensor vs;
 
 	MecanumDrive mecanum;
 
@@ -42,6 +45,8 @@ public class DriveBase {
 		fr = hardwareMap.get(DcMotorEx.class, "fr");
 		bl = hardwareMap.get(DcMotorEx.class, "bl");
 		br = hardwareMap.get(DcMotorEx.class, "br");
+//		vs = hardwareMap.get(VoltageSensor.class, "fl");
+
 
 		br.setDirection(DcMotorEx.Direction.REVERSE);
 		fr.setDirection(DcMotorEx.Direction.REVERSE);

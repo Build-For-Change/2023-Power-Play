@@ -1,13 +1,18 @@
 package org.firstinspires.ftc.teamcode;
+//RED
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@Autonomous(name = "High Right", group = "Iterative Opmode")
-public class HighRight extends LinearOpMode{
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+@Autonomous(name = "Blue terminal")
+public class VisionTest2 extends LinearOpMode {
 
     public DcMotorEx fl;
     public DcMotorEx fr;
@@ -16,11 +21,9 @@ public class HighRight extends LinearOpMode{
     public DcMotorEx elevatorMotor;
     public CRServo servo1;
     public CRServo servo2;
-//    public VoltageSensor vs;
 
     public double testVoltage = 12.83;
-    public double currentVoltage = 14;
-            //vs.getVoltage();
+    public double currentVoltage = 14.07;
 
     public double fast = 0.7;
     public double medium = 0.4;
@@ -37,16 +40,20 @@ public class HighRight extends LinearOpMode{
     public int brPos;
     private int elevatorPos;
 
+    private SleeveDetection2 sleeveDetection2;
+    private OpenCvCamera camera;
+
+    // Name of the Webcam to be set in the config
+    private String webcamName = "Webcam 1";
 
     @Override
-    public void runOpMode(){
+    public void runOpMode() throws InterruptedException {
         telemetry.setAutoClear(true);
 
         fl = hardwareMap.get(DcMotorEx.class, "fl");
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
-//        vs = hardwareMap.get(VoltageSensor.class, "Motor Controller 1");
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "lift");
         servo1 = hardwareMap.crservo.get("hand1");
         servo2 = hardwareMap.crservo.get("hand2");
@@ -61,58 +68,117 @@ public class HighRight extends LinearOpMode{
         br.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         elevatorMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
+        sleeveDetection2 = new SleeveDetection2();
+        camera.setPipeline(sleeveDetection2);
+
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+            }
+
+            @Override
+            public void onError(int errorCode) {}
+        });
+
+        while (!isStarted()) {
+            telemetry.addData("ROTATION: ", sleeveDetection2.getPosition());
+            telemetry.update();
+        }
+
         waitForStart();
 
-        // Move 80 cm to the right to reach the blue right triangle
 
-//        moveRight(-3.94, medium);
-//        moveForward(-26.97, medium);
-//        turnClockwise(45, medium);
-//        moveForward(-6.06, medium);
-//        moveElevator(6, 0.4);
-//        moveForward(6.06, medium);
-//        turnClockwise(-45, medium);
+        switch(sleeveDetection2.getPosition()){
+            case LEFT:
+                telemetry.addLine("Yellow");
+                telemetry.update();
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(-1,1000);
+                sleep(200);
+                moveElevator(1,fast);
+                moveBackwards(-3.54,vcMedium);
+                moveLeft(10.23,vcMedium);
+                //raise elevator
+                moveElevator(5,fast);
+                moveBackwards(3.54,vcMedium);
+                sleep(1000);
+                moveElevator(-1,fast);
+                // Release gripper
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(1,500);
 
-        // Move towards medium junction
-        //moveGripper(-1,-1,0);
-        // 10 cm right
-        moveGripper(-1,-1,1200);
-        moveLeft(-3.94, vcMedium);
-        // 68.5 cm forward
-        moveBackwards(-26.97, vcMedium);
-        // 30 cm left
-        moveLeft(11.2, vcMedium);
-        // Move elevator up
-        moveElevator(13,medium);
-        moveBackwards(-3.85,vcMedium);
-        moveElevator(-4, medium);
-        // Release gripper
-        moveGripper(1,1,500);
-        // Move elevator down
-        moveBackwards(4.1,vcMedium);
-        moveLeft(-13.5,vcMedium);
-        moveBackwards(29,vcMedium);
-        moveLeft(-32,vcMedium);
-        moveElevator(-9,medium);
-        // Move towards cones on the right
+                moveBackwards(3.54,vcMedium);
+                moveElevator(-5, fast);
+//
+                moveLeft(11.81, vcMedium);
+                moveBackwards(-23.62, vcMedium);
 
-//        // 30 cm right
-//        moveLeft(-11.81, medium);
-//        // 60 cm forward
-//        moveBackwards(-20, medium);
-//        // 90 clockwise
-//        turnAnticlockwise(-90, slow);
-//        // 60 cm forward
-//        moveBackwards(-23.62, medium);
-//        moveBackwards(23.62,medium);
-//        turnAnticlockwise(220,slow);
-//        // Close gripper
+                break;
+            case RIGHT:
+                telemetry.addLine("Magenta");
+                telemetry.update();
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(-1,1000);
+                sleep(200);
+                moveElevator(1,fast);
+                moveBackwards(-3.54,vcMedium);
+                moveLeft(10.23,vcMedium);
+                //raise elevator
+                moveElevator(5,fast);
+                moveBackwards(3.54,vcMedium);
+                sleep(1000);
+                moveElevator(-1,fast);
+                // Release gripper
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(1,500);
 
+                moveBackwards(3.54,vcMedium);
+                moveElevator(-5, fast);
+//
+                //lower elevator
+                moveLeft(-35.43, vcMedium);
+                moveBackwards(-23.62, vcMedium);
 
 
+                break;
+            case CENTER:
+                telemetry.addLine("Cyan");
+                telemetry.update();
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(-1,1000);
+                sleep(200);
+                moveElevator(1,fast);
+                moveBackwards(-3.54,vcMedium);
+                moveLeft(10.23,vcMedium);
+                //raise elevator
+                moveElevator(5,fast);
+                moveBackwards(-3.54,vcMedium);
+                sleep(1000);
+                moveElevator(-1,fast);
+                // Release gripper
+                servo1.setDirection(DcMotorSimple.Direction.REVERSE);
+                servo2.setDirection(DcMotorSimple.Direction.REVERSE);
+                moveGripper(1,500);
 
+                moveBackwards(3.54,vcMedium);
+                moveElevator(-5, fast);
 
+                //lower elevator
+                moveLeft(-11.81, vcMedium);
+                moveBackwards(-23.62, vcMedium);
 
+                break;
+        }
     }
 
     public void moveBackwards(double targetDistance, double speed) {
@@ -239,61 +305,11 @@ public class HighRight extends LinearOpMode{
         elevatorMotor.setPower(0);
     }
 
-    public void moveGripper(double power1, double power2, int sleepTime){
+    public void moveGripper(double power1, int sleepTime){
         servo1.setPower(power1);
-        servo2.setPower(power2);
+   //     servo2.setPower(power2);
         sleep(sleepTime);
-        servo2.setPower(0);
+   //     servo2.setPower(0);
         servo1.setPower(0);
-    }
-
-    private void turnAnticlockwise(int whatAngle, double speed) {
-        // whatAngle is in degrees. A negative whatAngle turns clockwise.
-
-        // fetch motor positions
-        flPos = fl.getCurrentPosition();
-        frPos = fr.getCurrentPosition();
-        blPos = bl.getCurrentPosition();
-        brPos = br.getCurrentPosition();
-
-        // calculate new targets
-        flPos += whatAngle * clicksPerDeg;
-        frPos -= whatAngle * clicksPerDeg;
-        blPos += whatAngle * clicksPerDeg;
-        brPos -= whatAngle * clicksPerDeg;
-
-        // move robot to new position
-        fl.setTargetPosition(flPos);
-        fr.setTargetPosition(frPos);
-        bl.setTargetPosition(blPos);
-        br.setTargetPosition(brPos);
-        fl.setPower(speed);
-        fr.setPower(speed);
-        bl.setPower(speed);
-        br.setPower(speed);
-
-        fl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        fr.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        bl.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        br.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-
-        // wait for move to complete
-        while (fl.isBusy() && fr.isBusy() &&
-                bl.isBusy() && br.isBusy()) {
-
-            // Display it for the driver.
-            telemetry.addLine("Turn Clockwise");
-            telemetry.addData("Target", "%7d :%7d", flPos, frPos, blPos, brPos);
-            telemetry.addData("Actual", "%7d :%7d", fl.getCurrentPosition(),
-                    fr.getCurrentPosition(), bl.getCurrentPosition(),
-                    br.getCurrentPosition());
-            telemetry.update();
-        }
-
-        // Stop all motion;
-        fl.setPower(0);
-        fr.setPower(0);
-        bl.setPower(0);
-        br.setPower(0);
     }
 }

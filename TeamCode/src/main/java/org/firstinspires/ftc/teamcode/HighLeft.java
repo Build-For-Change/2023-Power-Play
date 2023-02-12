@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.util.BatteryChecker;
 
 @Autonomous(name = "High Left", group = "Iterative Opmode")
@@ -16,9 +17,11 @@ public class HighLeft extends LinearOpMode{
     public DcMotorEx elevatorMotor;
     public CRServo servo1;
     public CRServo servo2;
+//    public VoltageSensor vs;
 
     public double testVoltage = 12.83;
-    public double currentVoltage = 14.07;
+    public double currentVoltage = 14;
+        //vs.getVoltage();
 
     public double fast = 0.7;
     public double medium = 0.4;
@@ -44,6 +47,7 @@ public class HighLeft extends LinearOpMode{
         fr = hardwareMap.get(DcMotorEx.class, "fr");
         bl = hardwareMap.get(DcMotorEx.class, "bl");
         br = hardwareMap.get(DcMotorEx.class, "br");
+//        vs = hardwareMap.get(VoltageSensor.class, "Motor Controller 1");
         elevatorMotor = hardwareMap.get(DcMotorEx.class, "lift");
         servo1 = hardwareMap.crservo.get("hand1");
         servo2 = hardwareMap.crservo.get("hand2");

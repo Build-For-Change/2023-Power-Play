@@ -67,8 +67,10 @@ public class main extends LinearOpMode
 			driveBase.speedCalc(x, y, rx);
 			elevator.moveElevator();
 			gripper.handleServo(gamepad2);
-
+			gamepad1.setLedColor(1,0.3,0,-1);
 			// handleServo();
+
+
 		}
 	}
 }
