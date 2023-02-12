@@ -103,10 +103,10 @@ public class VisionTest2 extends LinearOpMode {
                 sleep(200);
                 moveElevator(1,fast);
                 moveBackwards(-3.54,vcMedium);
-                moveLeft(10.23,vcMedium);
+                moveLeft(10,vcMedium);
                 //raise elevator
                 moveElevator(5,fast);
-                moveBackwards(3.54,vcMedium);
+                moveBackwards(-3.54,vcMedium);
                 sleep(1000);
                 moveElevator(-1,fast);
                 // Release gripper
@@ -130,7 +130,7 @@ public class VisionTest2 extends LinearOpMode {
                 sleep(200);
                 moveElevator(1,fast);
                 moveBackwards(-3.54,vcMedium);
-                moveLeft(10.23,vcMedium);
+                moveLeft(10,vcMedium);
                 //raise elevator
                 moveElevator(5,fast);
                 moveBackwards(3.54,vcMedium);
@@ -159,7 +159,7 @@ public class VisionTest2 extends LinearOpMode {
                 sleep(200);
                 moveElevator(1,fast);
                 moveBackwards(-3.54,vcMedium);
-                moveLeft(10.23,vcMedium);
+                moveLeft(10,vcMedium);
                 //raise elevator
                 moveElevator(5,fast);
                 moveBackwards(-3.54,vcMedium);
