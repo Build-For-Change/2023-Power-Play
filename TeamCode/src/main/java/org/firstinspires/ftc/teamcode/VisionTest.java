@@ -117,7 +117,7 @@ public class VisionTest extends LinearOpMode {
                 moveElevator(-5,fast);
 
                 //lower elevator
-                moveLeft(37, vcMedium);
+                moveLeft(38.5, vcMedium);
                 moveBackwards(-23.62, vcMedium);
 
                 break;
