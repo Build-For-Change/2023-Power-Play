@@ -101,23 +101,23 @@ public class VisionTest extends LinearOpMode {
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(-1,1000);
                 sleep(200);
-                moveElevator(1,fast);
+                moveElevator(2,fast);
                 moveBackwards(-3.54,vcMedium);
                 moveLeft(-18.69,vcMedium);
                 //raise elevator
-                moveElevator(5,fast);
-                moveBackwards(-3.54,vcMedium);
+                moveElevator(4,fast);
+                moveBackwards(-4.7,vcMedium);
                 sleep(1000);
                 moveElevator(-1,fast);
                 // Release gripper
                 servo1.setDirection(DcMotorSimple.Direction.REVERSE);
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(1,500);
-                moveBackwards(3.54,vcMedium);
-                moveElevator(-5,fast);//bring down REMOVE THIS LATER
+                moveBackwards(4.7,vcMedium);
+                moveElevator(-5,fast);
 
                 //lower elevator
-                moveLeft(35.43, vcMedium);
+                moveLeft(37, vcMedium);
                 moveBackwards(-23.62, vcMedium);
 
                 break;
@@ -128,20 +128,20 @@ public class VisionTest extends LinearOpMode {
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(-1,1000);
                 sleep(200);
-                moveElevator(1,fast);
+                moveElevator(2,fast);
                 moveBackwards(-3.54,vcMedium);
                 moveLeft(-18.69,vcMedium);
                 //raise elevator
-                moveElevator(5,fast);
-                moveBackwards(-3.54,vcMedium);
+                moveElevator(4,fast);
+                moveBackwards(-4.7,vcMedium);
                 sleep(1000);
                 moveElevator(-1,fast);
                 // Release gripper
                 servo1.setDirection(DcMotorSimple.Direction.REVERSE);
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(1,500);
-                moveBackwards(3.54,vcMedium);
-                moveElevator(-5,fast);//bring down REMOVE THIS LATER
+                moveBackwards(4.7,vcMedium);
+                moveElevator(-5,fast);
 
 
 //
@@ -158,24 +158,24 @@ public class VisionTest extends LinearOpMode {
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(-1,1000);
                 sleep(200);
-                moveElevator(1,fast);
+                moveElevator(2,fast);
                 moveBackwards(-3.54,vcMedium);
                 moveLeft(-18.69,vcMedium);
                 //raise elevator
-                moveElevator(5,fast);
-                moveBackwards(-3.54,vcMedium);
+                moveElevator(4,fast);
+                moveBackwards(-4.7,vcMedium);
                 sleep(1000);
                 moveElevator(-1,fast);
                 // Release gripper
                 servo1.setDirection(DcMotorSimple.Direction.REVERSE);
                 servo2.setDirection(DcMotorSimple.Direction.REVERSE);
                 moveGripper(1,500);
-                moveBackwards(3.54,vcMedium);
-                moveElevator(-5,fast);//bring down REMOVE THIS LATER
+                moveBackwards(4.7,vcMedium);
+                moveElevator(-5,fast);
 
 
                 //lower elevator
-                moveLeft(11.81, vcMedium);
+                moveLeft(12.2, vcMedium);
                 moveBackwards(-23.62, vcMedium);
 
                 break;

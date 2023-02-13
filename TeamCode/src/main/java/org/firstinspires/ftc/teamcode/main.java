@@ -60,14 +60,15 @@ public class main extends LinearOpMode
 			double y = (gamepad1.right_stick_y);
 			double x = (-gamepad1.right_stick_x);
 			double rx = (-gamepad1.left_stick_x);
-
+			double faster = gamepad1.right_trigger;
 
 
 			//driveBase.fieldCentricDrive(x, y, rx);
-			driveBase.speedCalc(x, y, rx);
+			driveBase.speedCalc(x, y, rx,faster);
 			elevator.moveElevator();
 			gripper.handleServo(gamepad2);
-			gamepad1.setLedColor(1,0.3,0,-1);
+			//gamepad1.setLedColor(1,0.3,0,-1);
+			//gamepad2.setLedColor(0,0,1,-1);
 			// handleServo();
 
 

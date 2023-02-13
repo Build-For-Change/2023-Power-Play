@@ -69,7 +69,7 @@ public class DriveBase {
 		speedCalc(x, y, rx);
 	}
 	 */
-	public void speedCalc(double x, double y, double rx)
+	public void speedCalc(double x, double y, double rx, double faster)
 	{
 
 		double frontLeft = y + x + rx;
@@ -81,11 +81,19 @@ public class DriveBase {
 		double max2 = Math.max(Math.abs(backLeft), Math.abs(backRight));
 		double max3 = Math.max(max1, max2);
 		double max4 = Math.max(max3, 1);
+		if(faster>0.1){
+			fl.setPower((frontLeft / max4)*0.75);
+			fr.setPower((frontRight / max4)*0.75);
+			bl.setPower((backLeft / max4)*0.75);
+			br.setPower((backRight / max4)*0.75);
+		}
+		else{
+			fl.setPower((frontLeft / max4)*0.5);
+			fr.setPower((frontRight / max4)*0.5);
+			bl.setPower((backLeft / max4)*0.5);
+			br.setPower((backRight / max4)*0.5);
+		}
 
-		fl.setPower((frontLeft / max4)*0.5);
-		fr.setPower((frontRight / max4)*0.5);
-		bl.setPower((backLeft / max4)*0.5);
-		br.setPower((backRight / max4)*0.5);
 
 
 
