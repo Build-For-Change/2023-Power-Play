@@ -1,10 +1,16 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.hardware.RevIMU;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 
 
 /**
@@ -29,6 +35,9 @@ public class main extends LinearOpMode
 	private Elevator elevator;
 	private Gripper gripper;
 
+	private RevIMU imu;
+
+
 	private double lastServoLocation;
 
 
@@ -45,6 +54,9 @@ public class main extends LinearOpMode
 		gripper = new Gripper(hardwareMap);
 		elevator.minPosition = elevator.elevatorMotor.getCurrentPosition();
 
+		imu = new RevIMU(hardwareMap);
+		imu.init();
+
 		lastServoLocation = 0;
 
 		waitForStart();
@@ -60,11 +72,12 @@ public class main extends LinearOpMode
 			double y = (gamepad1.right_stick_y);
 			double x = (-gamepad1.right_stick_x);
 			double rx = (-gamepad1.left_stick_x);
-			double faster = gamepad1.right_trigger;
+			double acc = gamepad1.right_trigger;
+			double heading = imu.getRotation2d().getDegrees();
 
 
-			//driveBase.fieldCentricDrive(x, y, rx);
-			driveBase.speedCalc(x, y, rx,faster);
+			driveBase.fieldCentricDrive(x, y, rx, heading, acc);
+//			driveBase.robotCentricDrive(x, y, rx, acc);
 			elevator.moveElevator();
 			gripper.handleServo(gamepad2);
 			//gamepad1.setLedColor(1,0.3,0,-1);
